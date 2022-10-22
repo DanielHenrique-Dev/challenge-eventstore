@@ -5,8 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EventsContainerTest {
-	
+public class EventsContainerTest {	
 
 	private EventsContainer eventsContainer;
 	
@@ -15,6 +14,7 @@ public class EventsContainerTest {
 		eventsContainer = new EventsContainer();
 	}
 
+	//testing the validation of the type inserted in the insertEvent method
 	@Test(expected = IllegalArgumentException.class)
 	public void testingTheInsertionOfAnEventWithTheParameterTypeEmptyTest() {
 		
@@ -22,7 +22,8 @@ public class EventsContainerTest {
 		
 		eventsContainer.insertEvent(event1);
 	} 
-	
+
+	//testing if the event was inserted in the container
 	@Test
 	public void testingToFetchTheSecondEventEnteredTest() {
 		

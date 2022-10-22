@@ -15,19 +15,21 @@ public class EventIteratorImpl implements EventIterator {
 
 	@Override
 	public void close() throws Exception {
-		// TODO Auto-generated method stub		
+		eventsIterator = null;
+		eventConatinerKey = null;
+		events = null;
 	}
 
 	@Override
 	public boolean moveNext() {
 		
-		if(!eventsIterator.hasNext()) {
-			eventConatinerKey = null;
-			return false;			
+		if(eventsIterator.hasNext()) {
+			eventConatinerKey = eventsIterator.next();
+			return true;
 		}
-				
-		eventConatinerKey = eventsIterator.next();
-		return true;			
+
+		eventConatinerKey = null;
+		return false;
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class EventIteratorImpl implements EventIterator {
 
 	@Override
 	public void remove() {
-		events.remove(eventConatinerKey);		
+		events.remove(eventConatinerKey);
 	}
 
 }

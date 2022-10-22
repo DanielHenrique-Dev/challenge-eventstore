@@ -9,7 +9,7 @@
 .DS_Store
 .attach
 .hprof
-.settings
+/.settings
 /target
 /*/target
 /trace.db
