@@ -14,6 +14,9 @@ public class EventStoreImplTest {
 		events = new EventStoreImpl(); 
 	}
 
+	/**
+	 * removing all elements, with type "Date".
+	 */
 	@Test
 	public void testingTheFunctionRemoveAllTest() {
 		
@@ -31,7 +34,10 @@ public class EventStoreImplTest {
 		
 		assertEquals(null, queryResult);
 	}
-	
+
+	/**
+	 * Adding a new event, on a non-existent key.
+	 */
 	@Test
 	public void testingTheInsertFunctionUsingANewKeyTest() {
 		
@@ -44,8 +50,11 @@ public class EventStoreImplTest {
 		queryResult.moveNext();
 		
 		assertEquals(15, queryResult.current().timestamp());
-	} 
-	
+	}
+
+	/**
+	 * Adding a new event, on a key that already exists.
+	 */
 	@Test
 	public void testingTheInsertFunctionUsingAnExistingKeyTest() {
 		
@@ -62,7 +71,10 @@ public class EventStoreImplTest {
 		
 		assertEquals(18, queryResult.current().timestamp());
 	}
-	
+
+	/**
+	 * Fetching events with the query function, with parameters that will not generate results.
+	 */
 	@Test
 	public void testingIfQueryDoesNotFindAnyEventWithinTheParametersTest() {
 		
@@ -79,6 +91,25 @@ public class EventStoreImplTest {
 		EventIterator queryResult2 = events.query("Ending", 10, 30);
 		
 		assertEquals(null, queryResult2);
+	}
+
+	/**
+	 * Testing the query function success case.
+	 */
+	@Test
+	public void testingIfThePositiveCaseOfTheQueryTest() {
+
+		Event event1 = new Event("Start", 15);
+		Event event2 = new Event("Start", 18);
+
+		events.insert(event1);
+		events.insert(event2);
+
+		EventIterator queryResult = events.query("Start", 10, 20);
+
+		queryResult.moveNext();
+
+		assertEquals(15, queryResult.current().timestamp());
 	}
 
 }

@@ -10,12 +10,12 @@ public class EventStoreImpl implements EventStore {
 	private Map<String, EventsContainer> events = new ConcurrentHashMap<>();
 
 	/**
-	 * Method responsible for inserting events in Map events
+	 * Method responsible for inserting events in Map events.
 	 * @param event
 	 */
 	@Override
 	public void insert(Event event) {
-		//Checking if it contains the key with the event type
+		//Checking if it contains the key with the event type.
 		if(	events.containsKey(event.type())) {
 			//If so, get the EventsContainer with the event type key and insert the event using the insertEvent method.
 			events.get(event.type()).insertEvent(event);
@@ -31,7 +31,7 @@ public class EventStoreImpl implements EventStore {
 	}
 
 	/**
-	 * Method responsible for erasing all events inserted in the map, based on the requested type
+	 * Method responsible for erasing all events inserted in the map, based on the requested type.
 	 * @param String type
 	 */
 	@Override
@@ -41,7 +41,7 @@ public class EventStoreImpl implements EventStore {
 	}
 
 	/**
-	 * Method responsible for fetching all events on the map, based on the parameters entered
+	 * Method responsible for fetching all events on the map, based on the parameters entered.
 	 * @param String type
 	 * @param long startTime
 	 * @param long endTime
@@ -49,12 +49,14 @@ public class EventStoreImpl implements EventStore {
 	@Override
 	public EventIterator query(String type, long startTime, long endTime) {
 
+		//Validation to check if the type is empty or null, and check if the type contains no events.
 		if(type.isBlank() || type.isEmpty() || type == null || !events.containsKey(type)) {
 			return null;
 		}
-		
+
 		EventsContainer result_data = new EventsContainer();
-		
+
+		//searching for all events within the established parameters
 		for (Map.Entry<String, Event> entry : events.get(type).entrySet()) {
 			
 			long entry_timestamp = entry.getValue().timestamp();
@@ -63,11 +65,12 @@ public class EventStoreImpl implements EventStore {
 				result_data.insertEvent(entry.getValue());
 			}
 		}
-		
+
+		//if there is no event, null return.
 		if(result_data.isEmpty()) {
 			return null;
 		}
-		
+
 		return new EventIteratorImpl(result_data);	
 		
 	}

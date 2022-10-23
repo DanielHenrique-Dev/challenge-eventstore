@@ -14,6 +14,9 @@ public class EventIteratorImplTest {
 		events = new EventStoreImpl(); 
 	}
 
+	/**
+	 * Testing the return IllegalStateException, when fetching an inexistent event from the fetching.
+	 */
 	@Test(expected = IllegalStateException.class)
 	public void TestingIllegalReturnOfCurrentFunctionTest() {
 		Event event1 = new Event("Data", 15);		
@@ -28,6 +31,9 @@ public class EventIteratorImplTest {
 		queryResult.current();
 	}
 
+	/**
+	 * Testing the positive return of the current event.
+	 */
 	@Test
 	public void TestingReturnOfCurrentFunctionTest() {
 		Event event1 = new Event("Data", 15);
@@ -41,6 +47,9 @@ public class EventIteratorImplTest {
 		assertEquals(15, queryResult.current().timestamp());
 	}
 
+	/**
+	 * Testing the positive return of the moveNext function, going to the next event.
+	 */
 	@Test
 	public void testingIterationNextMoveWhenEventToIterateTest() {
 		Event event1 = new Event("Data", 15);
@@ -51,7 +60,10 @@ public class EventIteratorImplTest {
 		
 		assertEquals(true, queryResult.moveNext());
 	}
-	
+
+	/**
+	 * Testing the negative return of the moveNext function, going to the next event.
+	 */
 	@Test
 	public void testingIterationNextMoveWhenNotEventToIterateTest() {
 		Event event1 = new Event("Data", 15);
@@ -65,6 +77,9 @@ public class EventIteratorImplTest {
 		assertEquals(false, queryResult.moveNext());
 	}
 
+	/**
+	 * Removing the event, using the remove function of the EventIterator class.
+	 */
 	@Test
 	public void testingIfEventIsRemovedFromInteractionTest() {
 		Event event1 = new Event("Data", 15);
@@ -80,6 +95,26 @@ public class EventIteratorImplTest {
 		assertEquals(null, queryResult.current());
 	}
 
+	/**
+	 * testing to return IllegalStateException, when there is no event to be removed.
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testingThatThereIsNoEventToBeRemovedFromTheInteractionTest() {
+		Event event1 = new Event("Data", 15);
+
+		events.insert(event1);
+
+		EventIterator queryResult = events.query("Data", 10, 20);
+
+		queryResult.moveNext();
+		queryResult.moveNext();
+
+		queryResult.remove();
+	}
+
+	/**
+	 * Testing the close function, making all class attributes null.
+	 */
 	@Test(expected = IllegalStateException.class)
 	public void testingClassClosureWithCloseMethodTest() throws Exception {
 		Event event1 = new Event("Data", 15);
